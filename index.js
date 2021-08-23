@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
-const {prefix, token} = require('./config.json');
+const {prefix} = require('./config.json');
 const client = new Discord.Client();
 
 client.once('ready', ()=>{
