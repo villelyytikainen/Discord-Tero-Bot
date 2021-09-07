@@ -9,17 +9,23 @@ const client = new Discord.Client({
     partials: ["MESSAGE"]
 });
 
+
 client.once('ready', ()=>{
     
     console.log('bot connected');
 });
 
-client.on('ready', () => {
-    client.setInterval(checkIfStreamerOnline, 5000);
+client.on('ready',async () => {
+    const channel = client.channels.cache.get('771299614924996619');
+    let status = null;
+    // channel.send(await Twitch.checkIfOnline())
+    client.setInterval(() => {
+        status = Twitch.checkIfOnline;
+        channel.send(Twitch.printStatus(status));
+    }, 5000);
 })
 
 client.on('message', async(msg) =>{
-    
     let args = msg.content.slice(prefix.length).trim().split(/ +/);
 
     if(msg.content[0] === prefix){
@@ -27,23 +33,7 @@ client.on('message', async(msg) =>{
         else if(args[0] === 'delete'){
             deleteMessages(msg, 100)
         }
-    }
-        
+    }   
 )
 
 client.login(process.env.DISCORD_BOT_TOKEN);
-
-const checkIfStreamerOnline = async () => {
-    const stream = await fetch('https://api.twitch.tv/helix/search/channels?query="kuerps"', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${process.env.TWITCH_TOKEN}`,
-                    'Client-Id': `${process.env.TWITCH_CLIENT_ID}`
-                }
-            }).then(d => d.json())
-            let message = '';
-
-            if(stream.data[0].is_live === true){
-                client.channels.cache.get('771299614924996619').send('Cada setä ois livenä, tulkeehaa osoitteesee https://www.twitch.tv/kuerps' )
-            }
-}
