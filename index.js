@@ -2,9 +2,7 @@ const dotenv = require('dotenv').config();
 const deleteMessages = require('./commands/deleteMessages')
 const Discord = require('discord.js');
 const Twitch = require('./commands/twitch')
-const fetch = require('node-fetch');
 const {prefix} = require('./config.json');
-const getToken = require('./commands/twitch');
 const client = new Discord.Client({
     partials: ["MESSAGE"]
 });
@@ -16,7 +14,7 @@ client.once('ready', ()=>{
 });
 
 client.on('ready',async () => {
-    const channel = client.channels.cache.get('771299614924996619');
+    const channel = client.channels.cache.get('745895949246660710');
     let announced = false;
     let status = null;
 
