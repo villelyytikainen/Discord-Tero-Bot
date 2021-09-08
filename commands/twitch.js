@@ -2,6 +2,7 @@ const fetch = require('node-fetch')
 
 const Twitch = {
     announced: false,
+    advertised: false,
 
     getToken: async () => {
         const token = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_CLIENT_ID}&client_secret=${process.env.TWITCH_CLIENT_SECRET}&grant_type=client_credentials`, {
@@ -23,14 +24,12 @@ const Twitch = {
                 return stream.data[0].is_live;
     },
 
-    printStatus: (status) => {
-        if(status && !announced){
-            return 'Yes'
-        }
-        else{
-            return 'No'
-        }
-        this.announced = true;
+    printStatus: () => {
+        const streamUrl = 'https://www.twitch.tv/kuerps';
+        const messages = ['Kurppa riimaa, tulkeehaa kahtommaa ositteessee',
+                          'Livet tulilla, tulkkeehaa',
+                          '']
+        return `${messages[Math.floor(Math.random()*messages.length)]} ${streamUrl}`
     }
 }
 

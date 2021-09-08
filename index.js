@@ -17,23 +17,33 @@ client.once('ready', ()=>{
 
 client.on('ready',async () => {
     const channel = client.channels.cache.get('771299614924996619');
+    let announced = false;
     let status = null;
-    // channel.send(await Twitch.checkIfOnline())
-    client.setInterval(() => {
-        status = Twitch.checkIfOnline;
-        channel.send(Twitch.printStatus(status));
+
+    //Keep checking the live status of stream
+    client.setInterval(async() => {
+        status = await Twitch.checkIfOnline(); 
+        if(status === true && !announced){
+            channel.send(Twitch.printStatus())
+            announced = true;
+        }
+        else{
+            announced = false;
+        }
     }, 5000);
 })
 
+//Commands to the bot
 client.on('message', async(msg) =>{
     let args = msg.content.slice(prefix.length).trim().split(/ +/);
 
     if(msg.content[0] === prefix){
+        switch(args[0]){
+            case 'delete':
+                deleteMessages(msg, 100)
+            break;
         }
-        else if(args[0] === 'delete'){
-            deleteMessages(msg, 100)
-        }
-    }   
-)
+    }
+});
 
 client.login(process.env.DISCORD_BOT_TOKEN);
