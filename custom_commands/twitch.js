@@ -26,7 +26,7 @@ const Twitch = {
 
     printStatus: () => {
         const streamUrl = 'https://www.twitch.tv/kuerps';
-        const messages = ['Kurppa riimaa, tulkeehaa kahtommaa ositteessee',
+        const messages = ['Kurppa riimaa, tulkeehaa kahtommaa osoitteessee',
                           'Livet tulilla, tulkkeehaa',
                           '']
         return `${messages[Math.floor(Math.random()*messages.length)]} ${streamUrl}`
@@ -35,3 +35,24 @@ const Twitch = {
 
 
 module.exports = Twitch;
+
+
+const Utils = {
+    deleteMessages:(message, amount) =>{
+        const userId = message.author.id
+        console.log(userId)
+        //console.log(message.channel.author.id)
+        // if(userId === message.channel.author.id)
+        if(amount <= 0 || amount > 100 || isNaN(amount))
+        message.reply('Anna poistettavien viestien lukumäärä');
+        else{
+            Utils.iterateMessages(message)
+            console.log('delete')
+            message.channel.bulkDelete(amount, true)
+            .catch(err => {
+                console.log(err);
+                message.channel.send('Virhe poistettaessa viestejä');
+            });
+        }
+    },
+}
